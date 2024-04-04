@@ -118,7 +118,7 @@ namespace SimpleCRUDapplication
             Execute();
         }
 
-        //TODO: implement function
+       
         void DeleteBook(List<Book> books)
         {
             int? identifier = null;
@@ -165,7 +165,7 @@ namespace SimpleCRUDapplication
 
         }
 
-        //TODO: implement function
+        
         void EditBook(List<Book> books)
         {
             int? identifier = null;
