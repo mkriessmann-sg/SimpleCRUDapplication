@@ -69,7 +69,7 @@ namespace SimpleCRUDapplication
             
             foreach (Book b in books)
             {
-                Console.WriteLine(b.identifier + ". " + b.title + " by" + b.author);
+                Console.WriteLine(b.identifier + ". " + b.title + " by " + b.author);
 
             }
             Console.Write("Press any Key to return");
@@ -137,29 +137,16 @@ namespace SimpleCRUDapplication
                 identifier = CheckForIntInput(_tempInput);
             }
 
-            foreach (Book b in books)
+            if (!CheckForExistence(books, identifier))
             {
-                if (b.identifier == identifier)
-                {
+                Console.WriteLine("The selected identifyer does not exist");
+                DeleteBook(books);
+                return;
 
-                }
-                else
-                {
-                    Console.WriteLine("The selected idenfifier does not exist.");
-                    DeleteBook(books);
-                    //Return immedeately to improve performance
-                    return;
-
-                }
             }
-            foreach (Book b in books)
-            {
-                if (b.identifier == identifier)
-                {
-
-                    books.Remove(b);
-                }
-            }
+            DeleteSingleBook(books,identifier);
+            
+            
             Console.Clear();
             Execute (); 
 
@@ -169,8 +156,9 @@ namespace SimpleCRUDapplication
         void EditBook(List<Book> books)
         {
             int? identifier = null;
+            //bool _exists = false;
 
-            Console.Write("Please enter the identifyer of the book you would like to delete.\nIf you do not know the identifier of the book you would like to delete, enter 's' to display the list of books.\nPlease enter here:");
+            Console.Write("Please enter the identifyer of the book you would like to edit.\nIf you do not know the identifier of the book you would like to edit, enter 's' to display the list of books.\nPlease enter here:");
             string? _tempInput;
             _tempInput = Console.ReadLine();
             if (_tempInput == "s")
@@ -183,22 +171,15 @@ namespace SimpleCRUDapplication
 
                 identifier = CheckForIntInput(_tempInput);
             }
-
-            foreach (Book b in books)
+            if (!CheckForExistence(books,identifier)) 
             {
-                if (b.identifier == identifier)
-                {
+                Console.WriteLine("The selected identifyer does not exist");
+                EditBook(books);
+                return;
 
-                }
-                else
-                {
-                    Console.WriteLine("The selected idenfifier does not exist.");
-                    DeleteBook(books);
-                    //Return immedeately to improve performance
-                    return;
-
-                }
             }
+            
+
             foreach (Book b in books)
             {
                 if (b.identifier == identifier)
@@ -220,6 +201,30 @@ namespace SimpleCRUDapplication
 
 
         //SUPPLEMENTARY FUNCTIONS
+        void DeleteSingleBook(List<Book> books, int? identifier)
+        {
+            foreach (Book b in books)
+            {
+                if (b.identifier == identifier)
+                {
+                    books.Remove(b);
+                    return;
+
+                }
+
+            }
+        }
+        bool CheckForExistence(List<Book> books, int? identifier)
+        {
+            foreach (Book b in books)
+            {
+
+                if (b.identifier == identifier) return true;
+            }
+            return false;
+        }
+
+
         int TestForDuplicate(List<Book> books, int identifier)
         {
             foreach (Book b in books)
@@ -258,7 +263,7 @@ namespace SimpleCRUDapplication
             string? _tempInput = Console.ReadLine();
             int _selection = CheckForIntInput(_tempInput);
 
-            switch (input)
+            switch (_selection)
             {
                 case 1:
                     Console.WriteLine("Please enter new Title");
